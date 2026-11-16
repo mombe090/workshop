@@ -1,6 +1,6 @@
 # 2026.10 — Cluster Kubernetes Talos
 
-https://www.youtube.com/watch?v=oxcGDRVIOsk
+https://youtu.be/oxcGDRVIOsk
 
 Workshop : déployer un cluster Kubernetes sous Talos Linux sur Proxmox VE from scratch, provisionnement des VMs, bootstrap du cluster et manifests inline (CNI/Flux),
 réparti sur deux root modules Terraform indépendants.
