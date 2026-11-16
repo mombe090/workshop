@@ -1,0 +1,16 @@
+apiVersion: v1alpha1
+kind: ImageCacheConfig
+# Local (to the machine) image cache configuration.
+local:
+    enabled: true
+---
+apiVersion: v1alpha1
+kind: RawVolumeConfig
+name: longhorn
+provisioning:
+  diskSelector:
+    match: "!system_disk"
+  minSize: 30Gi
+  maxSize: 40Gi
+
+

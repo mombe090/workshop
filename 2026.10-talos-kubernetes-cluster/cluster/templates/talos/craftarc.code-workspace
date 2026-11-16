@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "../../../../craftarc"
+		},
+		{
+			"path": "../../../../fleet-infra"
+		},
+		{
+			"path": "../../.."
+		},
+		{
+			"path": "../../../../tf-modules"
+		},
+		{
+			"path": "../../../../just-recipes"
+		}
+	],
+	"settings": {}
+}

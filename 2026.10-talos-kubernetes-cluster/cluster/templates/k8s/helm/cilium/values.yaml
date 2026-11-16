@@ -1,0 +1,77 @@
+# =============================================================================
+# Cilium Helm values for Talos Linux (bare-metal, no kube-proxy)
+#
+# References:
+#   - https://docs.siderolabs.com/kubernetes-guides/cni/deploying-cilium
+#   - https://docs.cilium.io/en/v1.20/network/l2-announcements/
+#   - https://docs.cilium.io/en/v1.20/network/lb-ipam/
+# =============================================================================
+
+# -- IPAM
+# Talos uses Kubernetes-native pod CIDR allocation.
+ipam:
+  mode: kubernetes
+kubeProxyReplacement: true
+securityContext:
+  capabilities:
+    ciliumAgent:
+      - CHOWN
+      - KILL
+      - NET_ADMIN
+      - NET_RAW
+      - IPC_LOCK
+      - SYS_ADMIN
+      - SYS_RESOURCE
+      - DAC_OVERRIDE
+      - FOWNER
+      - SETGID
+      - SETUID
+    cleanCiliumState:
+      - NET_ADMIN
+      - SYS_ADMIN
+      - SYS_RESOURCE
+cgroup:
+  autoMount:
+    enabled: false
+  hostRoot: /sys/fs/cgroup
+k8sServiceHost: localhost
+k8sServicePort: 7445
+gatewayAPI:
+  enabled: true
+  enableAlpn: true
+  enableAppProtocol: true
+l2announcements:
+  enabled: true
+hubble:
+  enabled: false
+  relay:
+    enabled: false
+  ui:
+    enabled: false
+    
+k8sClientRateLimit:
+  qps: 10
+  burst: 20
+resources:
+  requests:
+    cpu: 100m
+    memory: 100Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+operator:
+  resources:
+    limits:
+      cpu: 500m
+      memory: 768Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+envoy:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 30Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi

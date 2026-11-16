@@ -1,0 +1,2 @@
+# cilium Helm values for the lab environment.
+# Overrides k8s/helm/cilium/values.yaml on layering — leave empty to inherit base.

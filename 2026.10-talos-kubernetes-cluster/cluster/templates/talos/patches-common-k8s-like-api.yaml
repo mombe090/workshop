@@ -1,0 +1,62 @@
+apiVersion: v1alpha1
+kind: HostnameConfig
+hostname: ${hostname}
+auto: off
+---
+
+apiVersion: v1alpha1
+kind: LinkConfig
+name: ${network_interface_name}
+up: true
+mtu: 1500
+addresses:
+  - address: ${ip}/24
+routes:
+  - gateway: ${gateway}
+---
+
+apiVersion: v1alpha1
+kind: ResolverConfig
+nameservers:
+- address: 192.168.10.111
+- address: 192.168.90.113
+searchDomains:
+    disableDefault: false
+    domains:
+      - mydomain.io
+      - prod.home.mombesoft.com
+---
+
+apiVersion: v1alpha1
+kind: KubeletConfig
+config:
+  imageGCHighThresholdPercent: 70
+  imageGCLowThresholdPercent: 50
+
+---
+apiVersion: v1alpha1
+kind: RegistryAuthConfig
+name: ${registry_hostname}
+username: ${username}
+password: ${password}
+
+---
+apiVersion: v1alpha1
+kind: RegistryMirrorConfig
+name: docker.io
+endpoints:
+    - url: https://mirror.gcr.io
+      overridePath: false
+skipFallback: false
+
+---
+apiVersion: v1alpha1
+kind: TimeSyncConfig
+ntp:
+    servers:
+        - time.cloudflare.com
+---
+apiVersion: v1alpha1
+kind: KubeletConfig
+extraArgs:
+  rotate-server-certificates: true

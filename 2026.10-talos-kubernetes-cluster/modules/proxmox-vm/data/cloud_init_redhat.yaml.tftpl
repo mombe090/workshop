@@ -1,0 +1,48 @@
+#cloud-config
+hostname: ${hostname}
+timezone: ${timezone}
+fqdn: ${fully_qualified_domain_name}
+
+# /etc/hosts — static entries only, no IP config here.
+# Static IP is handled by Proxmox initialization ip_config (NoCloud datasource).
+write_files:
+  - path: /etc/hosts
+    content: |
+      127.0.0.1 localhost
+      127.0.0.1 ${hostname}
+      127.0.0.1 ${fully_qualified_domain_name}
+
+ssh_pwauth: false
+chpasswd:
+  expire: false
+  users:
+    - name: root
+      password: ${root_password}
+      type: text
+    - name: ${username}
+      password: ${user_password}
+      type: text
+users:
+  - default
+  - name: "${username}"
+    groups:
+      - wheel
+    shell: /bin/bash
+    ssh_authorized_keys:
+    %{ for key in ssh_public_keys ~}
+      - ${trimspace(key)}
+    %{ endfor }
+    lock_passwd: false
+    sudo: ALL=(ALL) NOPASSWD:ALL
+package_update: true
+packages:
+  - qemu-guest-agent
+  - net-tools
+  - curl
+  - git
+  - openssh-server
+runcmd:
+  - systemctl disable --now firewalld || true
+  - systemctl enable --now sshd
+  - systemctl enable --now qemu-guest-agent
+  - echo "done" > /tmp/cloud-config.done

@@ -1,0 +1,20 @@
+# Usage Sample
+
+## Virtual Machine creation
+
+```hcl
+module "proxmox_vm" {
+  source = "../.."
+
+  vm_id   = 100
+  vm_name = "talos-linux-vm"
+
+  vm_ip_address      = "192.168.10.11"
+  vm_nameservers     = []
+  vm_search_domain   = ""
+  vm_gateway_address = "192.168.10.1"
+
+  tags = ["talos", "linux"]
+}
+
+```
